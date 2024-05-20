@@ -83,20 +83,18 @@ for s=1:size(allsubj,2)
     for stim=1:2
         for cong=1:2
             for run=2
-                for resps=1:2
-                [blah,indx]=find(mediationsS.stim==stim & mediationsS.cong == cong & ismember(mediationsS.run,runs(run,:)) & mediationsS.response==(resps-1)); %color or motion
+                [blah,indx]=find(mediationsS.stim==stim & ismember(mediationsS.run,runs(run,:))); %color or motion
                 mediationsS.CPPrslopez(indx) = zscore(mediationsS.CPPrslope(indx));
                 mediationsS.N2cpeakz(indx) = zscore(mediationsS.N2cpeak(indx));
                 mediationsS.rtz(indx) = zscore(mediationsS.rt(indx));
                 mediationsS.cppampz(indx) = zscore(mediationsS.CPPamp(indx));
-                end
             end
         end
     end
     for stim=1:2
         for run=2
             for resps =1:2
-            [blah,indx]=find(mediationsS.stim==stim  & ismember(mediationsS.run,runs(run,:)) & mediationsS.response==(resps-1)); %color or motion
+            [blah,indx]=find(mediationsS.stim==stim  & ismember(mediationsS.run,runs(run,:))); %color or motion
             mediationsS.CPPrslopezC(indx) = zscore(mediationsS.CPPrslope(indx));
             mediationsS.N2cpeakzC(indx) = zscore(mediationsS.N2cpeak(indx));
             mediationsS.rtzC(indx) = zscore(mediationsS.rt(indx));
@@ -185,7 +183,7 @@ CPPamps = (mediationAll.cppampz(indx));
 N2cpeaksC = (mediationAll.N2cpeakzC(indx));
 CPPrslopesC = (mediationAll.CPPrslopezC(indx));
 CPPampsC = (mediationAll.cppampzC(indx));
-RTsC = (mediationAll.rtzC(indx));
+RTsC = (mediationAll.rt(indx));
 RTs = (mediationAll.rt(indx));
 subjs = mediationAll.subj_idx(indx);
 congs = mediationAll.cong(indx);
@@ -203,11 +201,12 @@ clear CPPrslopes2 RTs2 subjs2 cong2 rt2 CPPamps2
 t = table(subjs, RTs, CPPrslopes,N2cpeaks, congs,'VariableNames',{'subj','rt','cppslope','n2cpeak', 'cong'});
 %% mediation
 addpath(genpath('MediationToolbox-master'))
-[paths, toplevelstats, firstlevelstats] = mediation(N2cpeaks,RTsC,CPPrslopes,'stats');
-[pathsCongCPP, toplevelstatsCongCPP, firstlevelstatsCongCPP] = mediation(congs,RTsC,CPPrslopesC,'stats');
-[pathsCongN2c, toplevelstatsCongN2c, firstlevelstatsCongN2c] = mediation(congs,RTsC,N2cpeaksC,'stats');
+[paths, toplevelstats, firstlevelstats] = mediation(N2cpeaks,RTs,CPPrslopes,'stats');
+[pathsCongCPP, toplevelstatsCongCPP, firstlevelstatsCongCPP] = mediation(congs,RTs,CPPrslopes,'stats');
+[pathsCongN2c, toplevelstatsCongN2c, firstlevelstatsCongN2c] = mediation(congs,RTs,N2cpeaks,'stats');
+toplevelstats
+toplevelstatsCongCPP
 toplevelstatsCongN2c
-
 return
 %% n2cpeak cppslope rt mediation
 clc; close all

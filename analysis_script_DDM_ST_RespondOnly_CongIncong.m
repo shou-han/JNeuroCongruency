@@ -382,12 +382,12 @@ for s=1:length(single_participants)
             for cong=1:2
                 if d==1 %motion
                     window_searchi = [300 500];
-                    window_searchc = [334 354]; %JC: 324-424, S: 128-560
+                    window_searchc = [128 560]; %JC: 324-424, S: 128-560
                     window_searchpc = [200 500];
                     window_searchCPP = [-200 -5];
                 elseif d==2 %colour
                     window_searchi = [300 500];
-                    window_searchc = [334 354];
+                    window_searchc = [128 560];
                     window_searchpc = [150 300];
                     window_searchCPP = [-200 -5];
                 end
@@ -559,12 +559,12 @@ for c=2
         warning off
         if d==1 %motion
             window_searchi = [300 500];
-            window_searchc = [339 349]; %JC: 324-424, S: 294-394, 150-600 works
+            window_searchc = [319 369]; %JC: 324-424, S: 294-394, 150-600 works
             window_searchpc = [200 500];
             window_searchCPP = [-250 -5];
         elseif d==2 %colour
             window_searchi = [300 500];
-            window_searchc = [339 349];
+            window_searchc = [319 369];
             window_searchpc = [150 300];
             window_searchCPP = [-200 -5];
         end
@@ -597,9 +597,9 @@ for c=2
                         CPPrTemp = CPPTemp(RTsamp+trs);
                         CPPrA = squeeze(mean(erp(ch_CPP,RTsamp+trs,kk),1));
                         
-                        [mediationsS.N2cpeak(k), indxc] = min(N2cTemp(t>window_searchc(1) & t<window_searchc(2)));
-                        [mediationsS.N2ipeak(k), indxi] = min(N2iTemp(t>window_searchi(1) & t<window_searchi(2)));%200 to accomodate for N2c
-                        [mediationsS.N2pcpeak(k), indxpc] = min(N2pcTemp(t>window_searchpc(1) & t<window_searchpc(2)));
+                        [mediationsS.N2cpeak(k)] = mean(N2cTemp(t>window_searchc(1) & t<window_searchc(2)));
+                        [mediationsS.N2ipeak(k)] = mean(N2iTemp(t>window_searchi(1) & t<window_searchi(2)));%200 to accomodate for N2c
+                        [mediationsS.N2pcpeak(k)] = mean(N2pcTemp(t>window_searchpc(1) & t<window_searchpc(2)));
                         
                         mediationsS.CPPamp(k) = mean(CPPTemp(t>window_searchc(1) & t<window_searchc(2)));
                         %%%
@@ -650,11 +650,11 @@ for d=1:2
 end
 %% save the data for faster plots
 if CSD
-    save(['Data/ERPs/group_plots_erp_DDM_bin_ST_dual8Hz_CSD_339349'  num2str(single_participants) '_' num2str(chP)],'RTs','t','plot_chans','tr','chanlocs',...
+    save(['Data/ERPs/group_plots_erp_DDM_bin_ST_dual8Hz_CSD_319369'  num2str(single_participants) '_' num2str(chP)],'RTs','t','plot_chans','tr','chanlocs',...
         'allBins','allsubj','subject_folder', 'allstuff','mediations','RT_side',...
         'conds','condsT','mediationsS','CPPAll','CPPrAll','RTAll','stimAll','congAll','N2cAll','N2iAll','responseAll');
 else
-    save(['Data/ERPs/group_plots_erp_DDM_bin_ST_dual8Hz_339349'  num2str(single_participants) '_' num2str(chP)],'RTs','t','plot_chans','tr','chanlocs',...
+    save(['Data/ERPs/group_plots_erp_DDM_bin_ST_dual8Hz_294394'  num2str(single_participants) '_' num2str(chP)],'RTs','t','plot_chans','tr','chanlocs',...
         'allBins','allsubj','subject_folder', 'allstuff','mediations','RT_side',...
         'conds','condsT','mediationsS','CPPAll','CPPrAll','RTAll','stimAll','congAll','N2cAll','N2iAll','responseAll');
 end
